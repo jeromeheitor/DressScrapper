@@ -1,69 +1,63 @@
-Symfony Standard Edition
-========================
+# DressScrapper
+Dress scrapper for Adidas Shoes 
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+I) Setup:
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+If you encounter a DOMDocument related error on your terminal, please install the following package:
 
-What's inside?
---------------
+$ sudo apt-get install php-xml
 
-The Symfony Standard Edition is configured with the following defaults:
+Now let's get started !
 
-  * An AppBundle you can use to start coding;
+First set up your user’s database credentials located in the file app/parameters.yml
 
-  * Twig as the only configured template engine;
+database_name: wsb
 
-  * Doctrine ORM/DBAL;
+database_user: ~
 
-  * Swiftmailer;
+database_password: ~
 
-  * Annotations enabled for everything.
+Then if your credentials are correct symfony should be able to create the database and it schema:
+At the root of the project:
+(I recommend creating an alias for « php bin/console » to avoid repeating it each time):
 
-It comes pre-configured with the following bundles:
+sf doctrine:database:create
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+sf doctrine:schema:create
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+else
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+php bin/console doctrine:database:create
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+php bin/console doctrine:schema:create
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+####
+(Make sure your mysql user had grant access to ‘CREATE’ a database)
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+GRANT CREATE ON * . * TO 'yourusername'@'localhost';
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+GRANT ALL PRIVILEGES ON * . * TO 'yourusername'@'localhost';
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+FLUSH PRIVILEGES;
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+quit;
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
+####
 
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
+Then you can start the server:
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+php bin/console server:run 
 
-Enjoy!
+II) App:
 
-[1]:  https://symfony.com/doc/3.2/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.2/doctrine.html
-[8]:  https://symfony.com/doc/3.2/templating.html
-[9]:  https://symfony.com/doc/3.2/security.html
-[10]: https://symfony.com/doc/3.2/email.html
-[11]: https://symfony.com/doc/3.2/logging.html
-[12]: https://symfony.com/doc/3.2/assetic/asset_management.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
+This Symfony Web based app scrapp the 5 first pages of the shoes catalogue from adidas.fr website.
+
+You can choose both female and male sections.
+
+All the main informations you will need will be provided in real time and printed at the homepage.
+
+ProductId, Name, Current Price, Base Price, Current Discount.
+
+You have the possibility to fetch these datas with your local database by simply clicking on the left button "Update Database".
+
+DressScrapper is open source and was coded with pleasure, feel free to contribute to it.
