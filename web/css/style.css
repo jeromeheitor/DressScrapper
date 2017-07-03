@@ -5,15 +5,18 @@
  *
  * Made By MaterializeCSS.com
  */
-
 .icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-	font-size: inherit;
-}
+  padding: 0 15px; }
 
+.icon-block .material-icons {
+  font-size: inherit; }
+
+.flex {
+  display: inline-flex; }
+
+.pad-left {
+  padding-left: 4px; }
 
 .adidas-logo {
-    background-image: url('adidas-logo.svg');
-}
+  height: 58px;
+  margin-top: 3px; }

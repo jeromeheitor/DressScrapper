@@ -7,12 +7,22 @@
  */
 
 .icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-    font-size: inherit;
+  	padding: 0 15px;
 }
 
-.adidas-logo {
-    background-image: url("../img/adidas-logo.svg");
+.icon-block .material-icons {
+	font-size: inherit;
 }
+
+.flex {
+	display: inline-flex;
+ }
+ 
+ .pad-left {
+ 	padding-left: 4px;
+ }
+ 
+ .adidas-logo {
+	height: 58px;
+	margin-top: 3px;
+ }

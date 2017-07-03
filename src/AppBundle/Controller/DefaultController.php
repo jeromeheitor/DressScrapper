@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -17,7 +19,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request, $gender = "femmes")
     {
-
         $this->container->get('dress.scrapp')->init($gender);
         $products = $this->container->get('dress.scrapp')->getProducts();
 
@@ -44,7 +45,6 @@ class DefaultController extends Controller
      */
     public function exportCSVAction(Request $request, $gender)
     {
-
         $this->container->get('dress.scrapp')->init($gender);
         $data = $this->container->get('dress.scrapp')->getProducts();
         $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
@@ -54,8 +54,6 @@ class DefaultController extends Controller
         );
 
         return $this->redirectToRoute('app_default_index', array('gender' => $gender));
-
-        //$data = $serializer->decode(file_get_contents('data.csv'), 'csv');
     }
 
 }

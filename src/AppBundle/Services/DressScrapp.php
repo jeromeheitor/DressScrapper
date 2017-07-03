@@ -42,8 +42,11 @@ class DressScrapp
     {
         foreach ($this->pages as $url) {
             $this->crawler = $this->client->request('GET', $url);
-            $productIds = $this->crawler->filterXPath('//span[contains(@id, "salesprice-")]')
-                ->evaluate('substring-after(@id, "-")');
+            $node = $this->crawler->filterXPath('//span[contains(@id, "salesprice-")]');
+            if ($node->count() > 0)
+                $productIds = array_unique($node->evaluate('substring-after(@id, "-")'));
+            else
+                throw new Exception("Error Scrapping Products Id's", 1);
             $this->currentUrl = $url;
             $this->getAdidasProducts($productIds);
         }
@@ -86,7 +89,9 @@ class DressScrapp
             {
                 $this->em->persist($product);
             }
+           // dump($product->getProductId());
         }
+        //die;
         $this->em->flush();
         return $this->productRepository->findAll();
     }
