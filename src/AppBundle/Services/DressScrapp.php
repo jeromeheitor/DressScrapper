@@ -26,6 +26,7 @@ class DressScrapp
         $this->productRepository = $manager->getRepository('AppBundle:Product');
         $this->client = new Client();
         $this->nbrArticle = 0;
+        $this->products = [];
     }
 
     public function init($gender)
@@ -43,14 +44,15 @@ class DressScrapp
         foreach ($this->pages as $url) {
             $this->crawler = $this->client->request('GET', $url);
             $node = $this->crawler->filterXPath('//span[contains(@id, "salesprice-")]');
-            if ($node->count() > 0)
+            if ($node->count() > 0) {
                 $productIds = array_unique($node->evaluate('substring-after(@id, "-")'));
+                $this->currentUrl = $url;
+                $this->getAdidasProducts($productIds);
+            }
             else
-                throw new Exception("Error Scrapping Products Id's", 1);
-            $this->currentUrl = $url;
-            $this->getAdidasProducts($productIds);
+                $this->logger->error("Error Scrapping Product ID list: at $url");
         }
-        return $this->products;
+            return $this->products;
     }
 
     public function getAdidasProducts($productIds)
@@ -83,15 +85,20 @@ class DressScrapp
 
     public function updateDatabase()
     {
+        $first = true;
         foreach ($this->products as $product)
         {
-            if (!$this->productRepository->findOneByProductId($product->getProductId()))
+            $productId = $product->getProductId();
+            if ($first == true)
+                $prevProductId = $productId;
+            $first = false;
+            if (!$this->productRepository->findOneByProductId($productId)
+                && !strcmp($productId, $prevProductId))
             {
                 $this->em->persist($product);
+                $prevProductId = $productId;
             }
-           // dump($product->getProductId());
         }
-        //die;
         $this->em->flush();
         return $this->productRepository->findAll();
     }
